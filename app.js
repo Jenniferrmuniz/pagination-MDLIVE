@@ -122,8 +122,6 @@ app.get('/apps/:by', async function (req, res) {
 
 
 
-
-
   res.json(appsList);
 });
 
