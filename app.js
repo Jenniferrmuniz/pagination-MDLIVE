@@ -5,22 +5,19 @@ const allApps = require('./seed.js');
 require('dotenv').config();
 
 
-
-
 app.get('/', (req, res) => res.send('MDLIVE Pagination challenge!'))
 
 
 // Get range parameters
 app.get('/apps/:range', async function (req, res) {
 
-  range = {
+  let range = {
     by: req.query.by,
     start: Number(req.query.start) - 1 || 0,
     end: Number(req.query.end),
     max: Number(req.query.max) || 50,
     order: req.query.order || 'asc'
   };
-
   let appsList = [];
   let size;
 
