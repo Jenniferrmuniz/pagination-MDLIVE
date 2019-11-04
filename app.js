@@ -61,6 +61,7 @@ app.get('/apps/:range', async function (req, res) {
     if (sorted.indexOf(result) < 0) {
       return undefined;
     }
+    console.log(sorted.indexOf(result));
     return sorted.indexOf(result);
   }
 
@@ -91,7 +92,7 @@ app.get('/apps/:range', async function (req, res) {
 
 
   // Set endpoint to last app on page
-  if (range.end < range.start + range.max) {
+  if (range.end < range.start + range.max && range.end>range.start) {
     endpoint = range.end;
   }
   else {
