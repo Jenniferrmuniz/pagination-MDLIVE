@@ -27,7 +27,7 @@ module.exports = [
     { id: 24, name: 'Xml app' },
     { id: 25, name: 'Yoyo app' },
     { id: 26, name: 'Zebra app' },
-    { id: 27, name: 'Apple app' },
+    { id: 27, name: 'Laptop app' },
     { id: 28, name: 'Banana app' },
     { id: 29, name: 'Cat app' },
     { id: 30, name: 'Dog app' },

@@ -7,19 +7,14 @@ require('dotenv').config();
 
 
 
-app.get('/', (req, res) => res.send('MDLIVE Pagination app!'))
+app.get('/', (req, res) => res.send('MDLIVE Pagination challenge!'))
 
 
 // Get range parameters
-app.get('/apps/:by', async function (req, res) {
+app.get('/apps/:range', async function (req, res) {
 
-  let by = '';
-  if (req.params !== null) {
-    by = req.params.by
-  }
-
-  let range = {
-    by: by,
+  range = {
+    by: req.query.by,
     start: Number(req.query.start) - 1 || 0,
     end: Number(req.query.end),
     max: Number(req.query.max) || 50,
