@@ -61,7 +61,6 @@ app.get('/apps/:range', async function (req, res) {
     if (sorted.indexOf(result) < 0) {
       return undefined;
     }
-    console.log(sorted.indexOf(result));
     return sorted.indexOf(result);
   }
 
@@ -76,8 +75,6 @@ app.get('/apps/:range', async function (req, res) {
   else if(req.query.by == 'id'){
     sorted = sortByID(allApps, req.query.order || 'asc');
   }
-
-  console.log(req.query);
 
   
   // Range given by params

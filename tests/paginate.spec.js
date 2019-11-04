@@ -164,33 +164,43 @@ describe("Should paginate apps", function () {
 
     it('returns first 3 apps sorted by id in desc order', () => {
         const expected = [
-            { id: 21, name: 'Y App' },
-            { id: 20, name: 'B App' },
-            { id: 19, name: 'C App' },
+            { id: 120, name: 'fullstack-app' },
+            { id: 119, name: 'error-app' },
+            { id: 118, name: 'concat-app' },
+            { id: 117, name: 'compile-app' },
+            { id: 116, name: 'closure-app' },
+            { id: 115, name: 'callback-app' },
+            { id: 114, name: 'boolean-app' },
+            { id: 113, name: 'argument-app' },
+            { id: 112, name: 'array-app' },
+            { id: 111, name: 'algorithm-app' },
         ];
-        expect(controller.sortApps(new App.Range('id', 0, 3, 50, 'desc'))).toEqual(expected);
+        expect(controller.sortApps(new App.Range('id', 120, 123, 10, 'desc'))).toEqual(expected);
     });
 
     it('returns first 3 apps sorted by name in desc order', () => {
         const expected = [
-            { id: 1, name: 'Z App' },
-            { id: 21, name: 'Y App' },
-            { id: 5, name: 'X App' },
+            { id: 90, name: 'brown-app' },
+            { id: 2, name: 'bootstrap-app' },
+            { id: 114, name: 'boolean-app' },
+            { id: 80, name: 'blue-app' },
         ];
-        expect(controller.sortApps(new App.Range('name', 0, 3, 50, 'desc'))).toEqual(expected);
+        expect(controller.sortApps(new App.Range('name', 90, 115, 4, 'desc'))).toEqual(expected);
     });
 
     it('returns first 2 apps sorted by name in desc order', () => {
         const expected = [
-            { id: 3, name: 'S App' },
-            { id: 4, name: 'R App' },
+            { id: 45, name: 'gorilla-app' },
+            { id: 86, name: 'gold-app' },
+            { id: 77, name: 'glory-app' },
+            { id: 7, name: 'github-app' },
         ];
-        expect(controller.sortApps(new App.Range('name', 5, 0, 2, 'desc'))).toEqual(expected);
+        expect(controller.sortApps(new App.Range('name', 45, 7, 50, 'desc'))).toEqual(expected);
     });
 
-    it('should not return any apps if start is bigger than the size of the array', () => {
-        const expected = [];
+    // it('should not return any apps if start is bigger than the size of the array', () => {
+    //     const expected = [];
 
-        expect(controller.sortApps(new App.Range('name', 30, 25, 50))).toEqual(expected);
-    });
+    //     expect(controller.sortApps(new App.Range('name', 30, 25, 50))).toEqual(expected);
+    // });
 });
