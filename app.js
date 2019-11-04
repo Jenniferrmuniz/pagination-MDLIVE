@@ -76,7 +76,7 @@ app.get('/apps/:range', async function (req, res) {
     sorted = sortByID(allApps, req.query.order || 'asc');
   }
 
-
+  console.log(req.query);
 
   
   // Range given by params

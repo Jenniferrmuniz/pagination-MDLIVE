@@ -3,152 +3,187 @@ const App = require('../app');
 const allApps = require('../seed.js');
 
 
-describe("Should paginate apps", function() {
+describe("Should paginate apps", function () {
     let controller;
 
-  beforeEach(function() {
-      controller = new App.PaginateController(allApps);
-  });
+    beforeEach(function () {
+        controller = new App.PaginateController(allApps);
+    });
 
-      it("range should have default values for values not specified", async function() {
-          const request = {
-              params: { range: 'range'},
-              query: {by: 'id'}
-          }
 
-          expect(controller.getRangeRequest(request)).toEqual(jasmine.objectContaining({
-              by: 'id',
-              start: 0,
-              end: 0,
-              max: 50,
-              order: 'asc'
-          }));
-      });
+    it("range should have default values for values not specified", async function () {
+        const request = {
+            query: { by: 'id' }
+        }
 
-        it("range should convert query strings into integers", async function() {
-            const request = {
-                query: {
-                    by: 'id',
-                    start: '5',
-                    end: '13',
-                    max: '4'
-                }
-            }
+        expect(controller.getRangeRequest(request)).toEqual(jasmine.objectContaining({
+            by: 'id',
+            start: 0,
+            end: 0,
+            max: 50,
+            order: 'asc'
+        }));
+    });
 
-            expect(controller.getRangeRequest(request)).toEqual(jasmine.objectContaining({
+    
+    it("range should convert query strings into integers", async function () {
+        const request = {
+            query: {
                 by: 'id',
-                start: 5,
-                end: 13,
-                max: 4,
-                order: 'asc'
-            }));
-        });
+                start: '5',
+                end: '13',
+                max: '4'
+            }
+        }
+
+        expect(controller.getRangeRequest(request)).toEqual(jasmine.objectContaining({
+            by: 'id',
+            start: 5,
+            end: 13,
+            max: 4,
+            order: 'asc'
+        }));
+    });
 
     it('should return first 5 apps sorted by id', () => {
-          const expected = [
+        const expected = [
             { id: 1, name: 'axios-app' },
             { id: 2, name: 'bootstrap-app' },
             { id: 3, name: 'coding-app' },
             { id: 4, name: 'debug-app' },
             { id: 5, name: 'express-app' },
-          ];
+        ];
 
-          expect(controller.sortApps(new App.Range('id', 0, 0, 5))).toEqual(expected);
-      });
+        expect(controller.sortApps(new App.Range('id', 0, 0, 5))).toEqual(expected);
+    });
 
-        it('should return 1st 5 apps sorted by name', () => {
+    it('should return 1st 5 apps sorted by name', () => {
         const expected = [
-            {id: 7, name: ''},
-            {id: 20, name: 'B App'},
-            {id: 19, name: 'C App'},
-            {id: 18, name: 'D App'},
-            {id: 17, name: 'E App'},
+            { id: 111, name: 'algorithm-app' },
+            { id: 51, name: 'ape-app' },
+            { id: 67, name: 'api-app' },
+            { id: 41, name: 'apple-app' },
+            { id: 113, name: 'argument-app' },
         ];
 
         expect(controller.sortApps(new App.Range('name', 0, 0, 5))).toEqual(expected);
-        });
+    });
 
-        it('should return 2nd 5 apps sorted by id', () => {
+    it('should return 2nd 5 apps sorted by id', () => {
         const expected = [
-            {id: 6, name: 'W App'},
-            {id: 7, name: 'A App'},
-            {id: 8, name: 'O App'},
-            {id: 9, name: 'N App'},
-            {id: 10, name: 'M App'},
-
+            { id: 5, name: 'express-app' },
+            { id: 6, name: 'filter-app' },
+            { id: 7, name: 'github-app' },
+            { id: 8, name: 'heap-app' },
+            { id: 9, name: 'index-app' },
         ];
         expect(controller.sortApps(new App.Range('id', 5, 0, 5, 'asc'))).toEqual(expected);
     });
 
     it('should return 2nd 5 apps sorted by name', () => {
         const expected = [
-            {id: 16, name: 'F App'},
-            {id: 15, name: 'G App'},
-            {id: 14, name: 'H App'},
-            {id: 13, name: 'I App'},
-            {id: 12, name: 'J App'},
+            { id: 5, name: 'express-app' },
+            { id: 6, name: 'filter-app' },
+            { id: 33, name: 'fish-app' },
+            { id: 56, name: 'flower-app' },
+            { id: 44, name: 'frown-app' },
         ];
         expect(controller.sortApps(new App.Range('name', 5, 0, 5))).toEqual(expected);
     });
 
     it('should next 3 apps sorted by id', () => {
         const expected = [
-            {id: 6, name: 'W App'},
-            {id: 7, name: 'A App'},
-            {id: 8, name: 'O App'},
+            { id: 5, name: 'express-app' },
+            { id: 6, name: 'filter-app' },
+            { id: 7, name: 'github-app' },
+            { id: 8, name: 'heap-app' },
         ];
         expect(controller.sortApps(new App.Range('id', 5, 8, 5))).toEqual(expected);
     });
 
     it('should return next 3 apps sorted by name', () => {
         const expected = [
-            {id: 16, name: 'F App'},
-            {id: 15, name: 'G App'},
-            {id: 14, name: 'H App'},
+            { id: 55, name: 'easter-app' },
+            { id: 75, name: 'eggs-app' },
+            { id: 119, name: 'error-app' },
+            { id: 139, name: 'eventhandler-app' },
         ];
-        expect(controller.sortApps(new App.Range('name', 5, 8, 5))).toEqual(expected);
+        expect(controller.sortApps(new App.Range('name', 55, 100, 4))).toEqual(expected);
     });
 
     it('should last 3 apps sorted by id', () => {
         const expected = [
-            {id: 19, name: 'C App'},
-            {id: 20, name: 'B App'},
-            {id: 21, name: 'Y App'},
+            { id: 18, name: 'react-app' },
+            { id: 19, name: 'sort-app' },
+            { id: 20, name: 'tech-app' },
+            { id: 21, name: 'undefined-app' },
+            { id: 22, name: 'visualstudiocode-app' },
+            { id: 23, name: 'webdeveloper-app' },
+            { id: 24, name: 'xml-app' },
+            { id: 25, name: 'yoyo-app' },
         ];
         expect(controller.sortApps(new App.Range('id', 18, 25, 50))).toEqual(expected);
     });
 
     it('should return last 3 apps sorted by name', () => {
         const expected = [
-            {id: 5, name: 'X App'},
-            {id: 21, name: 'Y App'},
-            {id: 1, name: 'Z App'},
+            { id: 18, name: 'react-app' },
+            { id: 129, name: 'reactnative-app' },
+            { id: 84, name: 'red-app' },
+            { id: 68, name: 'redux-app' },
+            { id: 76, name: 'rose-app' },
+            { id: 150, name: 'ruby-app' },
+            { id: 136, name: 'sandbox-app' },
+            { id: 135, name: 'sequence-app' },
+            { id: 131, name: 'server-app' },
+            { id: 38, name: 'shark-app' },
+            { id: 87, name: 'silver-app' },
+            { id: 132, name: 'software-app' },
+            { id: 19, name: 'sort-app' },
+            { id: 95, name: 'spinach-app' },
+            { id: 133, name: 'stack-app' },
+            { id: 100, name: 'starwars-app' },
+            { id: 69, name: 'state-app' },
+            { id: 20, name: 'tech-app' },
+            { id: 60, name: 'thanksgiving-app' },
+            { id: 78, name: 'tulip-app' },
+            { id: 21, name: 'undefined-app' },
+            { id: 59, name: 'valentine-app' },
+            { id: 134, name: 'variable-app' },
+            { id: 22, name: 'visualstudiocode-app' },
+            { id: 98, name: 'water-app' },
+            { id: 23, name: 'webdeveloper-app' },
+            { id: 37, name: 'whale-app' },
+            { id: 88, name: 'white-app' },
+            { id: 24, name: 'xml-app' },
+            { id: 83, name: 'yellow-app' },
+            { id: 25, name: 'yoyo-app' },
         ];
         expect(controller.sortApps(new App.Range('name', 18, 25, 50))).toEqual(expected);
     });
 
     it('returns first 3 apps sorted by id in desc order', () => {
         const expected = [
-            {id: 21, name: 'Y App'},
-            {id: 20, name: 'B App'},
-            {id: 19, name: 'C App'},
+            { id: 21, name: 'Y App' },
+            { id: 20, name: 'B App' },
+            { id: 19, name: 'C App' },
         ];
         expect(controller.sortApps(new App.Range('id', 0, 3, 50, 'desc'))).toEqual(expected);
     });
 
     it('returns first 3 apps sorted by name in desc order', () => {
         const expected = [
-            {id: 1, name: 'Z App'},
-            {id: 21, name: 'Y App'},
-            {id: 5, name: 'X App'},
+            { id: 1, name: 'Z App' },
+            { id: 21, name: 'Y App' },
+            { id: 5, name: 'X App' },
         ];
         expect(controller.sortApps(new App.Range('name', 0, 3, 50, 'desc'))).toEqual(expected);
     });
 
     it('returns first 2 apps sorted by name in desc order', () => {
         const expected = [
-            {id: 3, name: 'S App'},
-            {id: 4, name: 'R App'},
+            { id: 3, name: 'S App' },
+            { id: 4, name: 'R App' },
         ];
         expect(controller.sortApps(new App.Range('name', 5, 0, 2, 'desc'))).toEqual(expected);
     });
