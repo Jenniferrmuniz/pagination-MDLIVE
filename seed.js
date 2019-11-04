@@ -1,15 +1,3 @@
-// const mongoose = require('mongoose');
-// const App = require('models/App.js');
-
-
-// mongoose
-// 	.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
-// 	.then((x) => {
-// 		console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`);
-// 	})
-// 	.catch((err) => {
-// 		console.error('Error connecting to mongo', err);
-// 	});
 
 
 module.exports = [
@@ -73,6 +61,16 @@ module.exports = [
     { id: 58, name: 'Halloween app' },
     { id: 59, name: 'Valentine app' },
     { id: 60, name: 'Thanksgiving app' },
+    { id: 61, name: 'MDLive app' },
+    { id: 62, name: 'Closure app' },
+    { id: 63, name: 'Hoisting app' },
+    { id: 64, name: 'Asynchronus app' },
+    { id: 65, name: 'Dom app' },
+    { id: 66, name: 'Crud app' },
+    { id: 67, name: 'Api app' },
+    { id: 68, name: 'Redux app' },
+    { id: 69, name: 'State app' },
+    { id: 70, name: 'Component app' },
     { id: 71, name: 'Fruits app' },
     { id: 72, name: 'Bear app' },
     { id: 73, name: 'Christmas app' },

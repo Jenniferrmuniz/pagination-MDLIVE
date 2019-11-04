@@ -7,9 +7,7 @@ require('dotenv').config();
 
 
 
-
 app.get('/', (req, res) => res.send('MDLIVE Pagination app!'))
-
 
 
 // Get range parameters
@@ -80,6 +78,9 @@ app.get('/apps/:by', async function (req, res) {
 
   // Push requested apps to array
   for (let i = range.start; i < size; i++) {
+    if(i === allApps.length){
+      break;
+    }
     appsList.push(allApps[i]);
   }
 
