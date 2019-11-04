@@ -125,8 +125,8 @@ allApps = [
 
 
 
-app.get('/apps/:by', async function (req, res) {
 
+app.get('/apps/:by', async function (req, res) {
 
   let by = '';
   if (req.params !== null) {
