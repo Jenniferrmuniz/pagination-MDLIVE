@@ -1,8 +1,11 @@
 
 const express = require('express');
 const app = express();
-const port = 3000
+require('dotenv').config();
 
+
+
+console.log(process.env.PORT);
 
 app.get('/', (req, res) => res.send('MDLIVE Pagination app!'))
 
@@ -215,4 +218,4 @@ app.get('/apps/:by', async function (req, res) {
   res.json(appsList);
 });
 
-app.listen(port, () => console.log(`App listening on port ${port}!`))
+app.listen(process.env.PORT, () => console.log(`App listening on port ${process.env.PORT}!`))
