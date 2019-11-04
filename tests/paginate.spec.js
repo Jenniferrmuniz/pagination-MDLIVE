@@ -1,6 +1,5 @@
-// const Range = require('../../myApp/model/range.js');
-// const Controller = require('../../myApp/paginate-controller');
-const App = require('../../myApp/app');
+
+const App = require('../app');
 
 describe("Should paginate apps", function() {
     let controller;

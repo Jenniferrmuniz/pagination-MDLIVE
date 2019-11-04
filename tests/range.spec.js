@@ -1,5 +1,5 @@
 // const Range = require('../../myApp/model/range.js');
-const App = require('../../myApp/app');
+const App = require('../app');
 
 
 describe("Range", function() {
