@@ -4,7 +4,7 @@ const app = express();
 const port = 3000
 
 
-app.get('https://pagination-challenge.herokuapp.com/', (req, res) => res.send('MDLIVE Pagination app!'))
+app.get('/', (req, res) => res.send('MDLIVE Pagination app!'))
 
 // allApps = [
 //   { id: 1, name: 'my-app-001' },
@@ -126,7 +126,7 @@ allApps = [
 
 
 
-app.get('https://pagination-challenge.herokuapp.com/apps/:by', async function (req, res) {
+app.get('/apps/:by', async function (req, res) {
 
   let by = '';
   if (req.params !== null) {
