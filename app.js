@@ -11,22 +11,25 @@ app.get('/', (req, res) => res.send('MDLIVE Pagination challenge!'))
 // Get range parameters
 app.get('/apps/:range', async function (req, res) {
 
+
   // Sort apps by ID
-  function sortByID() {
-    appsList.sort((a, b) => {
-      if (range.order == 'asc') {
+  function sortByID(apps, order) {
+    apps.sort((a, b) => {
+      if (order == 'asc') {
         return a.id - b.id;
       }
       else {
         return b.id - a.id;
       }
     })
+    return apps;
   }
 
+
   // Sort apps by name
-  function sortByName() {
-    appsList.sort((a, b) => {
-      if (range.order == 'asc') {
+  function sortByName(apps, order) {
+    apps.sort((a, b) => {
+      if (order == 'asc') {
         if (a.name < b.name) {
           return -1;
         }
@@ -45,29 +48,46 @@ app.get('/apps/:range', async function (req, res) {
         return 0;
       }
     })
+    return apps;
   }
+
+
 
   // Finds object in array to get start/end points
   function findObj(limit) {
-    result = allApps.find(obj => {
+    result = sorted.find(obj => {
       return obj.id === Number(limit) || obj.name === limit;
     })
-    if(allApps.indexOf(result)<0){
+    if (sorted.indexOf(result) < 0) {
       return undefined;
     }
-    return allApps.indexOf(result);
+    return sorted.indexOf(result);
   }
 
+
+
+
+  let sorted;
+  
+  if(req.query.by == 'name'){
+    sorted = sortByName(allApps, req.query.order || 'asc');
+  }
+  else if(req.query.by == 'id'){
+    sorted = sortByID(allApps, req.query.order || 'asc');
+  }
+
+
+
+  
   // Range given by params
   let range = {
-    by: req.query.by,
     start: findObj(req.query.start) || 0,
-    end: findObj(req.query.end)+1,
+    end: findObj(req.query.end) + 1,
     max: Number(req.query.max) || 50,
-    order: req.query.order || 'asc'
   };
   let appsList = [];
   let endpoint;
+
 
 
   // Set endpoint to last app on page
@@ -83,16 +103,9 @@ app.get('/apps/:range', async function (req, res) {
     if (i === allApps.length) {
       break;
     }
-    appsList.push(allApps[i]);
+    appsList.push(sorted[i]);
   }
 
-  // Sort the requested apps
-  if (range.by == 'name') {
-    sortByName();
-  }
-  else if (range.by == 'id') {
-    sortByID();
-  }
 
   // JSON the resulting apps list
   res.json(appsList);

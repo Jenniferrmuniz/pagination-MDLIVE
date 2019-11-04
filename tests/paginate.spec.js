@@ -27,7 +27,6 @@ describe("Should paginate apps", function() {
 
         it("range should convert query strings into integers", async function() {
             const request = {
-                params: { range: 'range'},
                 query: {
                     by: 'id',
                     start: '5',
@@ -47,11 +46,11 @@ describe("Should paginate apps", function() {
 
     it('should return first 5 apps sorted by id', () => {
           const expected = [
-              {id: 1, name: 'Axios app'},
-              {id: 2, name: 'Bootstrap app'},
-              {id: 3, name: 'Coding app'},
-              {id: 4, name: 'Debug app'},
-              {id: 5, name: 'Express app'},
+            { id: 1, name: 'axios-app' },
+            { id: 2, name: 'bootstrap-app' },
+            { id: 3, name: 'coding-app' },
+            { id: 4, name: 'debug-app' },
+            { id: 5, name: 'express-app' },
           ];
 
           expect(controller.sortApps(new App.Range('id', 0, 0, 5))).toEqual(expected);
@@ -59,7 +58,7 @@ describe("Should paginate apps", function() {
 
         it('should return 1st 5 apps sorted by name', () => {
         const expected = [
-            {id: 7, name: 'A App'},
+            {id: 7, name: ''},
             {id: 20, name: 'B App'},
             {id: 19, name: 'C App'},
             {id: 18, name: 'D App'},
