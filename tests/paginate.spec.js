@@ -1,31 +1,10 @@
 
 const App = require('../app');
+const allApps = require('../seed.js');
+
 
 describe("Should paginate apps", function() {
     let controller;
-    const allApps = [
-        {id: 1, name: 'Z App'},
-        {id: 2, name: 'T App'},
-        {id: 3, name: 'S App'},
-        {id: 4, name: 'R App'},
-        {id: 21, name: 'Y App'},
-        {id: 6, name: 'W App'},
-        {id: 5, name: 'X App'},
-        {id: 8, name: 'O App'},
-        {id: 9, name: 'N App'},
-        {id: 10, name: 'M App'},
-        {id: 11, name: 'K App'},
-        {id: 12, name: 'J App'},
-        {id: 13, name: 'I App'},
-        {id: 14, name: 'H App'},
-        {id: 15, name: 'G App'},
-        {id: 16, name: 'F App'},
-        {id: 17, name: 'E App'},
-        {id: 18, name: 'D App'},
-        {id: 19, name: 'C App'},
-        {id: 20, name: 'B App'},
-        {id: 7, name: 'A App'},
-    ];
 
   beforeEach(function() {
       controller = new App.PaginateController(allApps);
@@ -33,8 +12,8 @@ describe("Should paginate apps", function() {
 
       it("range should have default values for values not specified", async function() {
           const request = {
-              params: { by: 'id'},
-              query: {}
+              params: { range: 'range'},
+              query: {by: 'id'}
           }
 
           expect(controller.getRangeRequest(request)).toEqual(jasmine.objectContaining({
@@ -48,8 +27,9 @@ describe("Should paginate apps", function() {
 
         it("range should convert query strings into integers", async function() {
             const request = {
-                params: { by: 'id'},
+                params: { range: 'range'},
                 query: {
+                    by: 'id',
                     start: '5',
                     end: '13',
                     max: '4'
@@ -67,11 +47,11 @@ describe("Should paginate apps", function() {
 
     it('should return first 5 apps sorted by id', () => {
           const expected = [
-              {id: 1, name: 'Z App'},
-              {id: 2, name: 'T App'},
-              {id: 3, name: 'S App'},
-              {id: 4, name: 'R App'},
-              {id: 5, name: 'X App'},
+              {id: 1, name: 'Axios app'},
+              {id: 2, name: 'Bootstrap app'},
+              {id: 3, name: 'Coding app'},
+              {id: 4, name: 'Debug app'},
+              {id: 5, name: 'Express app'},
           ];
 
           expect(controller.sortApps(new App.Range('id', 0, 0, 5))).toEqual(expected);
