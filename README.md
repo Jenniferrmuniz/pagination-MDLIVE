@@ -45,7 +45,7 @@ The resulting array of apps is returned in JSON format.
 
 ## Testing
 
-Testing
+Jasmine
 
 
 ##### Created by Jennifer Muniz
