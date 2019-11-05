@@ -37,7 +37,7 @@ ____
 
 ____
 
-### Example querys
+### Example queries
 - /apps/range?by=id
 - /apps/range?by=id&start=5&max=10
 - /apps/range?by=name&order=desc
