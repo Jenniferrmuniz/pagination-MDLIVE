@@ -87,8 +87,8 @@ function getEndpoint(start, end, max) {
 
 // Paginate and return requested apps in order
 function paginateAndSort(apps, req) {
+  
   let sorted;
-
   const incomingRange = buildRange(req);
 
   if(incomingRange.by == 'name'){
@@ -111,15 +111,18 @@ function paginateAndSort(apps, req) {
 
 
 
-// Routes that don't have params
+// Route that does not have params or endpoint
 app.get('/', (req, res) =>{
   res.send('MDLive Pagination challenge! ( type params in url to paginate api - ex: https://pagination-challenge.herokuapp.com/apps/range?by=id&start=2 ) ');
 })
-app.get('/apps', (req, res) =>{
-  res.send('MDLive Pagination challenge! ( type params in url to paginate api - ex: https://pagination-challenge.herokuapp.com/apps/range?by=id&start=2 ) ');
+
+
+
+// Endpoint but no range params are specified so it is set to default case
+app.get('/apps', (req, res) =>{  
+  req.query.by = 'id'
+  res.json(paginateAndSort(allApps, req));
 })
-
-
 
 
 // Get range parameters
