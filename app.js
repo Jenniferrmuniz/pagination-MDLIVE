@@ -1,8 +1,6 @@
-
 const express = require('express');
 const app = express();
 const allApps = require('./seed.js');
-
 require('dotenv').config();
 
 // Get range parameters
@@ -54,7 +52,6 @@ function sortByName(apps, order) {
   return apps;
 }
 
-
 // Finds object in array to get start/end points
 function findObj(sortedList, boundary) {
   result = sortedList.find(obj => {
@@ -66,6 +63,39 @@ function findObj(sortedList, boundary) {
   return sortedList.indexOf(result);
 }
 
+// Set endpoint to last app on page
+function getEndpoint(start, end, max) {
+  if (end < start + max && end > start) {
+    return end;
+  }
+  else {
+    return start + max;
+  }
+}
+
+// Paginate and get request apps in order
+function paginateAndSort(apps, req) {
+  let sorted;
+
+  const incomingRange = buildRange(req);
+
+  if(incomingRange.by == 'name'){
+    sorted = sortByName(apps, incomingRange.order);
+  }
+  else if(incomingRange.by == 'id'){
+    sorted = sortByID(apps, incomingRange.order);
+  }
+
+  // Range given by params
+  let range = {
+    start: findObj(sorted, incomingRange.start) || 0,
+    end: findObj(sorted, incomingRange.end) + 1,
+    max: incomingRange.max,
+  };
+  const endpoint = getEndpoint(range.start, range.end, range.max);
+
+  return sorted.slice(range.start, endpoint);
+}
 
 // Routes that don't have params
 app.get('/', (req, res) =>{
@@ -75,53 +105,10 @@ app.get('/apps', (req, res) =>{
   res.send('MDLive Pagination challenge! ( type params in url to paginate api - ex: https://pagination-challenge.herokuapp.com/apps/range?by=id&start=2 ) ');
 })
 
-
-
 // Get range parameters
 app.get('/apps/:range', async function (req, res) {
-
-  if (req.query.by === undefined ){
-    res.status(400).send('The param by is not optional, possible values are: name or id')
-  }
-
-  let sorted;
-
-  const incomingRange = buildRange(req);
-  
-  // Sort apps
-  if(incomingRange.by == 'name'){
-    sorted = sortByName(allApps, incomingRange.order);
-  }
-  else if(incomingRange.by == 'id'){
-    sorted = sortByID(allApps, incomingRange.order);
-  }
-
-
-  // Range given by params
-  let range = {
-    start: findObj(sorted, incomingRange.start) || 0,
-    end: findObj(sorted, incomingRange.end) + 1,
-    max: Number(incomingRange.max) || 50,
-  };
-  let appsList = [];
-  let endpoint;
-
-
-
-  // Set endpoint to last app on page
-  if (range.end < range.start + range.max && range.end>range.start) {
-    endpoint = range.end;
-  }
-  else {
-    endpoint = range.start + range.max;
-  }
-
-  // Push requested apps to array
-  appsList.push(sorted.slice(range.start, endpoint));
-
-
   // JSON the resulting apps list
-  res.json(appsList);
+  res.json(paginateAndSort(allApps, req));
 });
 
 app.listen(process.env.PORT, () => console.log(`App listening on port ${process.env.PORT}!`))
@@ -131,4 +118,6 @@ module.exports = {
   sortById: sortByID,
   sortByName: sortByName,
   findObj: findObj,
+  getEndpoint: getEndpoint,
+  paginateAndSort: paginateAndSort
 }

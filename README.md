@@ -34,7 +34,6 @@ The resulting array of apps is returned in JSON format.
 
 
 
-
 ### Example querys
 - /apps/range?by=id
 - /apps/range?by=id&start=5&max=10
