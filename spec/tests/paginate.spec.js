@@ -1,31 +1,109 @@
+const sortById = require('../../app').sortById;
+const sortByName = require('../../app').sortByName;
+const findObj = require('../../app').findObj;
 
-const App = require('../app');
-const allApps = require('../seed.js');
+describe("Should sort and pageinate apps", function () {
+    let allApps = [
+        { id: 35, name: 'zip-app' },
+        { id: 39, name: 'cookie-app' },
+        { id: 36, name: 'bunny-app' },
+        { id: 37, name: 'whale-app' },
+        { id: 38, name: 'shark-app' },
+        { id: 40, name: 'brownie-app' },
+    ];
 
+    fit('should sort by id in ascending order', () => {
+        expect(sortById(allApps, 'asc')).toEqual([
+            { id: 35, name: 'zip-app' },
+            { id: 36, name: 'bunny-app' },
+            { id: 37, name: 'whale-app' },
+            { id: 38, name: 'shark-app' },
+            { id: 39, name: 'cookie-app' },
+            { id: 40, name: 'brownie-app' },
+        ])
+    })
 
-describe("Should paginate apps", function () {
-    let controller;
-
-    beforeEach(function () {
-        controller = new App.PaginateController(allApps);
+    fit('should sort by name in ascending order', () => {
+        expect(sortByName(allApps, 'asc')).toEqual([
+            { id: 40, name: 'brownie-app' },
+            { id: 36, name: 'bunny-app' },
+            { id: 39, name: 'cookie-app' },
+            { id: 38, name: 'shark-app' },
+            { id: 37, name: 'whale-app' },
+            { id: 35, name: 'zip-app' },
+        ])
     });
 
+    fit('should sort by id in descending order', () => {
+        expect(sortById(allApps, 'desc')).toEqual([
+            { id: 40, name: 'brownie-app' },
+            { id: 39, name: 'cookie-app' },
+            { id: 38, name: 'shark-app' },
+            { id: 37, name: 'whale-app' },
+            { id: 36, name: 'bunny-app' },
+            { id: 35, name: 'zip-app' },
+        ])
+    })
 
-    it("range should have default values for values not specified", async function () {
-        const request = {
-            query: { by: 'id' }
-        }
-
-        expect(controller.getRangeRequest(request)).toEqual(jasmine.objectContaining({
-            by: 'id',
-            start: 0,
-            end: 0,
-            max: 50,
-            order: 'asc'
-        }));
+    fit('should sort by name in descending order', () => {
+        expect(sortByName(allApps, 'desc')).toEqual([
+            { id: 35, name: 'zip-app' },
+            { id: 37, name: 'whale-app' },
+            { id: 38, name: 'shark-app' },
+            { id: 39, name: 'cookie-app' },
+            { id: 36, name: 'bunny-app' },
+            { id: 40, name: 'brownie-app' },
+        ])
     });
 
-    
+    fit('should find the object by id when id is in array', () => {
+        const sortedByIdList = [
+            { id: 35, name: 'zip-app' },
+            { id: 36, name: 'bunny-app' },
+            { id: 37, name: 'whale-app' },
+            { id: 38, name: 'shark-app' },
+            { id: 39, name: 'cookie-app' },
+            { id: 40, name: 'brownie-app' },
+        ];
+        expect(findObj(sortedByIdList, 36)).toBe(1);
+    });
+
+    fit('should find the object by name when name is in array', () => {
+        const sortedByNameList = [
+            { id: 35, name: 'zip-app' },
+            { id: 37, name: 'whale-app' },
+            { id: 38, name: 'shark-app' },
+            { id: 39, name: 'cookie-app' },
+            { id: 36, name: 'bunny-app' },
+            { id: 40, name: 'brownie-app' },
+        ];
+        expect(findObj(sortedByNameList, 'shark-app')).toBe(2);
+    });
+
+    fit('should return undefined when id is not in array', () => {
+        const sortedByIdList = [
+            { id: 35, name: 'zip-app' },
+            { id: 36, name: 'bunny-app' },
+            { id: 37, name: 'whale-app' },
+            { id: 38, name: 'shark-app' },
+            { id: 39, name: 'cookie-app' },
+            { id: 40, name: 'brownie-app' },
+        ];
+        expect(findObj(sortedByIdList, 101)).toBe(undefined);
+    });
+
+    fit('should return undefined when name is not in array', () => {
+        const sortedByIdList = [
+            { id: 35, name: 'zip-app' },
+            { id: 36, name: 'bunny-app' },
+            { id: 37, name: 'whale-app' },
+            { id: 38, name: 'shark-app' },
+            { id: 39, name: 'cookie-app' },
+            { id: 40, name: 'brownie-app' },
+        ];
+        expect(findObj(sortedByIdList, 'zzzzzzz')).toBe(undefined);
+    });
+
     it("range should convert query strings into integers", async function () {
         const request = {
             query: {
